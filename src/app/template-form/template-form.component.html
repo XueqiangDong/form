@@ -1,20 +1,39 @@
 <div>
-  <form #myFrom="ngForm" (ngSubmit)="onSubmit(myFrom.value)">
+  <form #myFrom="ngForm" (ngSubmit)="onSubmit(myFrom.value,myFrom.valid)" novalidate>
     <!--<div ngModelGroup="userinfo">-->
-      <div>用户名：<input ngModel name="username" type="text"></div>
-      <div>手机号：<input ngModel name="mobile" type="number"></div>
+    <div>用户名：<input ngModel required minlength="6" name="username" type="text"></div>
+
+    <div [hidden]="!myFrom.form.hasError('required','userName')">
+      用户名是必填项
+    </div>
+    <div [hidden]="!myFrom.form.hasError('minlength','userName')">
+      用户名最小长度是6
+    </div>
+    <div>手机号：<input ngModel mobile name="mobile" type="number" (input)="onMobileInput(myFrom)"></div>
+    <div [hidden]="mobileValid || mobileUntouched">
+      <div [hidden]="!myFrom.form.hasError('mobile','mobile')">
+        手机号不正确，请输入正确的手机号
+      </div>
+    </div>
     <!--</div>-->
-    <div ngModelGroup="passwordsGroup">
-      <div>密码：<input ngModel name="password" type="password"></div>
+    <div ngModelGroup="passwordsGroup" equals>
+      <div>密码：<input ngModel minlength="6" name="password" type="password"></div>
+      <div [hidden]="!myFrom.form.hasError('minlength',['passwordGroup','password'])">
+        密码最少6位
+      </div>
       <div>确认密码：<input ngModel name="pconfirm" type="password"></div>
+      <div [hidden]="!myFrom.form.hasError('eaual','passwordGroup')">
+        <!--密码和确认密码不匹配-->
+        {{myFrom.form.getError('eaual','passwordGroup')?.descxxx}}
+      </div>
     </div>
     <button type="submit">注册</button>
   </form>
 </div>
 <!--<div>-->
-  <!--{{myFrom.value | json}}-->
+<!--{{myFrom.value | json}}-->
 <!--</div>-->
 <!--<div>-->
-  <!--<hr>-->
-  <!--{{username.value | json}}-->
+<!--<hr>-->
+<!--{{username.value | json}}-->
 <!--</div>-->
