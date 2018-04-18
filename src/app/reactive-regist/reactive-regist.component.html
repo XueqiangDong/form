@@ -1,0 +1,30 @@
+<div>
+  <form [formGroup]="formModel" (submit)="onSubmit()">
+    <div>用户名：<input type="text" formControlName="userName"></div>
+    <div [hidden]="!formModel.hasError('required','userName')">
+      用户名是必填项
+    </div>
+    <div [hidden]="!formModel.hasError('minlength','userName')">
+      用户名最小长度是6
+    </div>
+    <div>手机号：<input type="text" formControlName="mobile"></div>
+    <div [hidden]="!formModel.hasError('mobile','mobile')">
+      手机号不正确
+    </div>
+    <div formGroupName="passwordGroup">
+      <div>密码：<input type="password" formControlName="password"></div>
+      <div [hidden]="!formModel.hasError('minlength',['passwordGroup','password'])">
+        密码最少6位
+      </div>
+      <div>确认密码：<input type="password" formControlName="pconfirm"></div>
+      <div [hidden]="!formModel.hasError('eaual','passwordGroup')">
+        <!--密码和确认密码不匹配-->
+        {{formModel.getError('eaual','passwordGroup')?.descxxx}}
+      </div>
+    </div>
+    <button type="submit">注册</button>
+  </form>
+</div>
+<div>
+  {{formModel.status}}
+</div>
